@@ -1,0 +1,75 @@
+\documentclass[a4paper, 11pt]{article}
+
+\usepackage[margin=0.6in]{geometry}
+\usepackage{cite}
+\usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue]{hyperref}
+
+\begin{document}
+\renewcommand\thesection{(\alph{section})}
+\renewcommand\thesubsection{\alph{subsection}}
+\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
+
+\section{Domain Description}
+
+\textbf{Food Chain}
+\vspace{3mm}
+
+\noindent
+In the food chain, there exist several species. Each species has an ID, one or more common names, a scientific name and a diet. \\ \\
+These species all live in an ecosystem. 
+Ecosystems consist of a name, location and area code as well as a climate and area in km.
+Each ecosystem will also have a keystone species, that is, a species that has the greatest effect on an ecosystem \cite{paine_note_1969}.
+There can only be one keystone species in an ecosystem and a species can only be keystone in one ecosystem. \\ \\
+Researchers are assigned to study the species.
+One researcher can study a variety of species and there is no need for more than one researcher studying a species at any one time.
+Researchers will have a name, area of expertise and an ORCID ID.\\ \\
+Each researcher will supervise a number of students.
+Keep track of the students names, courses and year of study. \\ \\
+The species in an ecosystem can interact with each other. This interaction type also needs to be recorded (Predation, parisitism, symbiosis etc).
+
+
+\subsection{Entities}
+
+\begin{itemize}
+    \item Species
+    \item Ecosystem
+    \item Researcher
+    \item Student (weak)
+\end{itemize}
+
+\subsection{1:1 Binary relationships}
+
+\begin{itemize}
+    \item Keystone Species $\leftrightarrow$ Ecosystem
+\end{itemize}
+
+\subsection{1:N Binary relationships}
+
+\begin{itemize}
+    \item Researcher $\leftrightarrow$ Species
+    \item Researcher $\leftrightarrow$ Students
+\end{itemize}
+
+\subsection{M:N Binary relationships}
+
+\begin{itemize}
+    \item Species $\leftrightarrow$ Ecosystem
+\end{itemize}
+
+\subsection{Recursive relationships}
+
+\begin{itemize}
+    \item Species $\leftrightarrow$ Species (Interactions)
+\end{itemize}
+
+\subsection{Weak entities or multivalued composite attributes}
+
+\begin{itemize}
+    \item Species common name (Comp/Multi)
+    \item Student (Weak Entity)
+\end{itemize}
+
+\bibliographystyle{plain}
+\bibliography{domain}
+
+\end{document}
