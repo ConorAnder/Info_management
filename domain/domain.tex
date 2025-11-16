@@ -3,6 +3,7 @@
 \usepackage[margin=0.6in]{geometry}
 \usepackage{cite}
 \usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue]{hyperref}
+\usepackage{graphicx}
 
 \begin{document}
 \renewcommand\thesection{(\alph{section})}
@@ -23,8 +24,8 @@ There can only be one keystone species in an ecosystem and a species can only be
 Researchers are assigned to study the species.
 One researcher can study a variety of species and there is no need for more than one researcher studying a species at any one time.
 Researchers will have a name, area of expertise and an ORCID ID.\\ \\
-Each researcher will supervise a number of students.
-Keep track of the students names, courses and year of study. \\ \\
+Each researcher will supervise a student.
+Keep track of the students' names, courses and year of study. \\ \\
 The species in an ecosystem can interact with each other. This interaction type also needs to be recorded (Predation, parisitism, symbiosis etc).
 
 
@@ -69,6 +70,407 @@ The species in an ecosystem can interact with each other. This interaction type 
     \item Student (Weak Entity)
 \end{itemize}
 
+\newpage
+\section{ER Diagram}
+\vspace{3mm}
+\noindent
+\centering
+\includegraphics[width=\textwidth]{er_diagram.png}
+\vspace{3mm}
+
+\raggedright
+The Entity relationship diagram seen above was created in Processing in order to give full control over the placement of each entity, attribute and relation.
+The code used is provided within the $ER\_Diagram$ directory. 
+
+\vspace{3mm}
+From the domain description, I can extract four distinct terms that I believe can be classified as entities.
+These are \textbf{species}, \textbf{ecosystem}, \textbf{researcher} and \textbf{student}.
+To start, the species entity contains 5 attributes. ID is a simple attribute we can also assign as a key attribute.
+Diet likely consists of multiple possible food sources which makes it a multivalued attribute. 
+We know each species has a name, but we are also told that we need to keep track of both scientific and common names.
+Thus we can create a composite attribute of name with sub-attributes of common and scientific attached to it.
+A species can have a number of common names in different languages and even in the same language in some cases, making common names a multivalued composite attribute.
+There is only one fixed scientific name however.
+
+\vspace{3mm}
+Ecosystem also contains 5 attributes.
+Name, location climate and area make up the simple attributes while area code can be used as a key attribute.
+
+\vspace{3mm}
+There are three attributes associated with the researcher entity.
+Name and field of study are simple attributes and the ORCID works well as a key attribute.
+
+\vspace{3mm}
+The student entity contains three simple attributes, name, course and year. 
+There doesn't seem to be a good candidate for a key attribute and students only exist in the database if they study under a researcher, so student is likely a weak entity with a composite key made from a combination of the primary key from researcher and the student's name.
+
+\vspace{3mm}
+Moving on to relationships, every species must live in an ecosystem.
+Similarly, every ecosystem must have at least one species to be classified as such.
+This indicates a full participation from both with an N:M cardinality as multiple species can reside in multiple ecosystems.
+
+\vspace{3mm}
+There is also the keystone relationship between species and ecosystem.
+By definition, there can only be one keystone species in an ecosystem and as the keystone species is a defining characteristic of the ecosystem itself, each species can be keystone of only one ecosystem.
+Every ecosystem must have a keystone but not every species can be one.
+
+\newpage
+Every researcher must study a species to be in the database, but not every species is studied. 
+For the purposes of this database, one researcher is responsible for multiple species with no overlap. This creates a 1:N cardinality.
+
+\vspace{3mm}
+Each researcher will supervise one student. 
+Every researcher must take part, and every student in the database will have a supervisor.
+
+\vspace{3mm}
+There is a recursive relationship between each species and a number of others.
+This involves inter-species interactions where every species takes part by the fact that they exist in nature.
+The interaction type is also recorded.
+
+\section{Relational Schema Mapping}
+\renewcommand\thesubsection{Step \arabic{subsection}}
+\subsection{Regular Entity Types}
+
+The following tables can be mapped from regular entities and simple attributes from the ER diagram:
+
+\vspace{3mm}
+\textbf{SPECIES} \\
+\begin{tabular}{| c | c |}
+    \hline
+    \underline{ID} & ScientificName \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{ECOSYSTEM} \\
+\begin{tabular}{| c | c | c | c | c |}
+    \hline
+    \underline{AreaCode} & AreaKM & Location & Climate & Name \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{RESEARCHER} \\
+\begin{tabular}{| c | c | c |}
+    \hline
+    \underline{ORCID} & Name & Field \\
+    \hline
+\end{tabular}
+
+\subsection{Weak Entity Types}
+From this, the weak entity that is student can be integrated:
+
+\vspace{3mm}
+\textbf{SPECIES} \\
+\begin{tabular}{| c | c |}
+    \hline
+    \underline{ID} & ScientificName \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{ECOSYSTEM} \\
+\begin{tabular}{| c | c | c | c | c |}
+    \hline
+    \underline{AreaCode} & AreaKM & Location & Climate & Name \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{RESEARCHER} \\
+\begin{tabular}{| c | c | c |}
+    \hline
+    \underline{ORCID} & Name & Field \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{STUDENT} \\
+\begin{tabular}{| c | c | c | c |}
+    \hline
+    \underline{ORCID} & \underline{Name} & Course & Year \\
+    \hline
+\end{tabular}
+
+\subsection{1:1 Relation Types}
+There are two 1:1 relations in the ER diagram, supervises and keystone of.
+We will begin with keystone of as that is the simplest.
+The first method works best in this case as we have a full and partial participation.
+
+\vspace{3mm}
+Taking ecosystem as S as it has full participation, we can take ID of the species as a foreign key in ecosystem and call it KeystoneID.
+
+\vspace{3mm}
+Supervises is a bit different.
+As I have already mapped the weak entities in step 2, supervises as a relation is already mapped to the schema.
+
+\newpage
+
+\vspace{3mm}
+\textbf{SPECIES} \\
+\begin{tabular}{| c | c |}
+    \hline
+    \underline{ID} & ScientificName \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{ECOSYSTEM} \\
+\begin{tabular}{| c | c | c | c | c | c |}
+    \hline
+    \underline{AreaCode} & AreaKM & Location & Climate & Name & KeystoneID\\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{RESEARCHER} \\
+\begin{tabular}{| c | c | c |}
+    \hline
+    \underline{ORCID} & Name & Field \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{STUDENT} \\
+\begin{tabular}{| c | c | c | c |}
+    \hline
+    \underline{ORCID} & \underline{Name} & Course & Year \\
+    \hline
+\end{tabular}
+
+\subsection{1:N Relation Types}
+Studies is the singular 1:N relation in the diagram.
+We can take species as S and researcher as T and take the primary key, ORCID as a foreign key in the species table.
+There are no attributes in the relation to add to species.
+
+\vspace{3mm}
+\textbf{SPECIES} \\
+\begin{tabular}{| c | c | c |}
+    \hline
+    \underline{ID} & ScientificName & ResearcherID \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{ECOSYSTEM} \\
+\begin{tabular}{| c | c | c | c | c | c |}
+    \hline
+    \underline{AreaCode} & AreaKM & Location & Climate & Name & KeystoneID \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{RESEARCHER} \\
+\begin{tabular}{| c | c | c |}
+    \hline
+    \underline{ORCID} & Name & Field \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{STUDENT} \\
+\begin{tabular}{| c | c | c | c |}
+    \hline
+    \underline{ORCID} & \underline{Name} & Course & Year \\
+    \hline
+\end{tabular}
+
+\subsection{M:N Relation Types}
+Interacts with and lives in are the two M:N relations in the database.
+For each, we create a new table and include the primary keys of the participating entities as foreign keys which will make up the composite primary key.
+The new interacts with table will also include the interaction attribute.
+
+\vspace{3mm}
+\textbf{SPECIES} \\
+\begin{tabular}{| c | c | c |}
+    \hline
+    \underline{ID} & ScientificName & ResearcherID \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{ECOSYSTEM} \\
+\begin{tabular}{| c | c | c | c | c | c |}
+    \hline
+    \underline{AreaCode} & AreaKM & Location & Climate & Name & KeystoneID \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{RESEARCHER} \\
+\begin{tabular}{| c | c | c |}
+    \hline
+    \underline{ORCID} & Name & Field \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{STUDENT} \\
+\begin{tabular}{| c | c | c | c |}
+    \hline
+    \underline{ORCID} & \underline{Name} & Course & Year \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{INTERACTS\textunderscore WITH} \\
+\begin{tabular}{| c | c | c |}
+    \hline
+    \underline{SpeciesID1} & \underline{SpeciesID2} & Interaction \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{LIVES\textunderscore IN} \\
+\begin{tabular}{| c | c |}
+    \hline
+    \underline{SpeciesID} & \underline{AreaCode} \\
+    \hline
+\end{tabular}
+
+\newpage
+\subsection{Multivalued Attributes}
+There are two multivalued attributes, diet and common name and both belong to species.
+These are mapped by creating a new table with the primary key of the entity the attribute belongs to taken as a foreign key.
+This is combined with the attribute to form a composite primary key for the table.
+
+\vspace{3mm}
+\textbf{SPECIES} \\
+\begin{tabular}{| c | c | c |}
+    \hline
+    \underline{ID} & ScientificName & ResearcherID \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{DIET} \\
+\begin{tabular}{| c | c |}
+    \hline
+    \underline{SpeciesID} & \underline{Diet} \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{COMMON\textunderscore NAME} \\
+\begin{tabular}{| c | c |}
+    \hline
+    \underline{SpeciesID} & \underline{CommonName} \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{ECOSYSTEM} \\
+\begin{tabular}{| c | c | c | c | c | c |}
+    \hline
+    \underline{AreaCode} & AreaKM & Location & Climate & Name & KeystoneID \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{RESEARCHER} \\
+\begin{tabular}{| c | c | c |}
+    \hline
+    \underline{ORCID} & Name & Field \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{STUDENT} \\
+\begin{tabular}{| c | c | c | c |}
+    \hline
+    \underline{ORCID} & \underline{Name} & Course & Year \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{INTERACTS\textunderscore WITH} \\
+\begin{tabular}{| c | c | c |}
+    \hline
+    \underline{SpeciesID1} & \underline{SpeciesID2} & Interaction \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{LIVES\textunderscore IN} \\
+\begin{tabular}{| c | c |}
+    \hline
+    \underline{SpeciesID} & \underline{AreaCode} \\
+    \hline
+\end{tabular}
+
+\subsection{N-ary Relation Types}
+There are no N-ary relation types in this ER diagram, meaning we can safely skip this step.
+Therefore the following is the fully constructed mapping of the ER diagram to a schema:
+
+\vspace{3mm}
+\textbf{SPECIES} \\
+\begin{tabular}{| c | c | c |}
+    \hline
+    \underline{ID} & ScientificName & ResearcherID \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{DIET} \\
+\begin{tabular}{| c | c |}
+    \hline
+    \underline{SpeciesID} & \underline{Diet} \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{COMMON\textunderscore NAME} \\
+\begin{tabular}{| c | c |}
+    \hline
+    \underline{SpeciesID} & \underline{CommonName} \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{ECOSYSTEM} \\
+\begin{tabular}{| c | c | c | c | c | c |}
+    \hline
+    \underline{AreaCode} & AreaKM & Location & Climate & Name & KeystoneID \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{RESEARCHER} \\
+\begin{tabular}{| c | c | c |}
+    \hline
+    \underline{ORCID} & Name & Field \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{STUDENT} \\
+\begin{tabular}{| c | c | c | c |}
+    \hline
+    \underline{ORCID} & \underline{Name} & Course & Year \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{INTERACTS\textunderscore WITH} \\
+\begin{tabular}{| c | c | c |}
+    \hline
+    \underline{SpeciesID1} & \underline{SpeciesID2} & Interaction \\
+    \hline
+\end{tabular}
+
+\vspace{3mm}
+\textbf{LIVES\textunderscore IN} \\
+\begin{tabular}{| c | c |}
+    \hline
+    \underline{SpeciesID} & \underline{AreaCode} \\
+    \hline
+\end{tabular}
+
+\newpage
+\section{SQL Implementation}
+
+
+\newpage
 \bibliographystyle{plain}
 \bibliography{domain}
 
