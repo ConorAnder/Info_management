@@ -1,38 +1,38 @@
 USE ECOLOGICAL_DATA
 
 # Researchers - Auto increment takes care of the ORCID
-INSERT INTO RESEARCHER VALUES ('Harold Stewart', 'Botany');    -- 1
-INSERT INTO RESEARCHER VALUES ('Jesse Mckee', 'Zoology');       -- 2
-INSERT INTO RESEARCHER VALUES ('Chloe Smith', 'Ecology');       -- 3
-INSERT INTO RESEARCHER VALUES ('David Lee', 'Marine Biology');  -- 4
-INSERT INTO RESEARCHER VALUES ('Eva Nolan', 'Entomology');      -- 5
-INSERT INTO RESEARCHER VALUES ('Frank Doyle', 'Mycology');      -- 6
-INSERT INTO RESEARCHER VALUES ('Grace Ward', 'Conservation');   -- 7
-INSERT INTO RESEARCHER VALUES ('Hannah Reid', 'Ornithology');   -- 8
-INSERT INTO RESEARCHER VALUES ('Ian Burke', 'Herpetology');     -- 9
-INSERT INTO RESEARCHER VALUES ('Julia Chan', 'Forestry');       -- 10
+INSERT INTO RESEARCHER VALUES (NULL, 'Harold Stewart', 'Botany');    -- 1
+INSERT INTO RESEARCHER VALUES (NULL, 'Jesse Mckee', 'Zoology');       -- 2
+INSERT INTO RESEARCHER VALUES (NULL, 'Chloe Smith', 'Ecology');       -- 3
+INSERT INTO RESEARCHER VALUES (NULL, 'David Lee', 'Marine Biology');  -- 4
+INSERT INTO RESEARCHER VALUES (NULL, 'Eva Nolan', 'Entomology');      -- 5
+INSERT INTO RESEARCHER VALUES (NULL, 'Frank Doyle', 'Mycology');      -- 6
+INSERT INTO RESEARCHER VALUES (NULL, 'Grace Ward', 'Conservation');   -- 7
+INSERT INTO RESEARCHER VALUES (NULL, 'Hannah Reid', 'Ornithology');   -- 8
+INSERT INTO RESEARCHER VALUES (NULL, 'Ian Burke', 'Herpetology');     -- 9
+INSERT INTO RESEARCHER VALUES (NULL, 'Julia Chan', 'Forestry');       -- 10
 
 # Species
-INSERT INTO SPECIES VALUES ('Rosa Persica', 1);
-INSERT INTO SPECIES VALUES ('Tulipa Gesneriana', 1);
-INSERT INTO SPECIES VALUES ('Panthera Leo', 2);
-INSERT INTO SPECIES VALUES ('Elephas Maximus', 2);
-INSERT INTO SPECIES VALUES ('Canis Lupus', 3);
-INSERT INTO SPECIES VALUES ('Vulpes Vulpes', 3);
-INSERT INTO SPECIES VALUES ('Delphinus Delphis', 4);
-INSERT INTO SPECIES VALUES ('Salmo Salar', 4);
-INSERT INTO SPECIES VALUES ('Apis Mellifera', 5);
-INSERT INTO SPECIES VALUES ('Formica Rufa', 5);
-INSERT INTO SPECIES VALUES ('Amanita Muscaria', 6);
-INSERT INTO SPECIES VALUES ('Boletus Edulis', 6);
-INSERT INTO SPECIES VALUES ('Gorilla Gorilla', 7);              -- Yes it is Gorilla Gorilla, There is also Gorilla Gorilla Gorilla!
-INSERT INTO SPECIES VALUES ('Pongo Pygmaeus', 7);
-INSERT INTO SPECIES VALUES ('Tyto Alba', 8);
-INSERT INTO SPECIES VALUES ('Falco Peregrinus', 8);
-INSERT INTO SPECIES VALUES ('Crocodilus Niloticus', 9);
-INSERT INTO SPECIES VALUES ('Chelonoidis Niger', 9);
-INSERT INTO SPECIES VALUES ('Taxus Baccata', 10);
-INSERT INTO SPECIES VALUES ('Fraxinus Excelsior', 10);
+INSERT INTO SPECIES VALUES (NULL, 'Rosa Persica', 1);
+INSERT INTO SPECIES VALUES (NULL, 'Tulipa Gesneriana', 1);
+INSERT INTO SPECIES VALUES (NULL, 'Panthera Leo', 2);
+INSERT INTO SPECIES VALUES (NULL, 'Elephas Maximus', 2);
+INSERT INTO SPECIES VALUES (NULL, 'Canis Lupus', 3);
+INSERT INTO SPECIES VALUES (NULL, 'Vulpes Vulpes', 3);
+INSERT INTO SPECIES VALUES (NULL, 'Delphinus Delphis', 4);
+INSERT INTO SPECIES VALUES (NULL, 'Salmo Salar', 4);
+INSERT INTO SPECIES VALUES (NULL, 'Apis Mellifera', 5);
+INSERT INTO SPECIES VALUES (NULL, 'Formica Rufa', 5);
+INSERT INTO SPECIES VALUES (NULL, 'Amanita Muscaria', 6);
+INSERT INTO SPECIES VALUES (NULL, 'Boletus Edulis', 6);
+INSERT INTO SPECIES VALUES (NULL, 'Gorilla Gorilla', 7);              -- Yes it is Gorilla Gorilla, There is also Gorilla Gorilla Gorilla!
+INSERT INTO SPECIES VALUES (NULL, 'Pongo Pygmaeus', 7);
+INSERT INTO SPECIES VALUES (NULL, 'Tyto Alba', 8);
+INSERT INTO SPECIES VALUES (NULL, 'Falco Peregrinus', 8);
+INSERT INTO SPECIES VALUES (NULL, 'Crocodylus Niloticus', 9);
+INSERT INTO SPECIES VALUES (NULL, 'Chelonoidis Niger', 9);
+INSERT INTO SPECIES VALUES (NULL, 'Taxus Baccata', 10);
+INSERT INTO SPECIES VALUES (NULL, 'Fraxinus Excelsior', 10);
 
 # Diet - Multiple values can be assigned to each species
 INSERT INTO DIET VALUES (1, 'Producer');
@@ -43,8 +43,8 @@ INSERT INTO DIET VALUES (4, 'Herbivore');
 INSERT INTO DIET VALUES (4, 'Frugivore');
 INSERT INTO DIET VALUES (5, 'Carnivore');
 INSERT INTO DIET VALUES (5, 'Piscivore');
-INSERT INTO DIET VALUES (5, 'Omnivore');
-INSERT INTO DIET VALUES (5, 'Insectivore');
+INSERT INTO DIET VALUES (6, 'Omnivore');
+INSERT INTO DIET VALUES (6, 'Insectivore');
 INSERT INTO DIET VALUES (7, 'Piscivore');
 INSERT INTO DIET VALUES (8, 'Piscivore');
 INSERT INTO DIET VALUES (9, 'Palynivore');
@@ -59,7 +59,91 @@ INSERT INTO DIET VALUES (15, 'Carnivore');
 INSERT INTO DIET VALUES (16, 'Carnivore');
 INSERT INTO DIET VALUES (17, 'Carnivore');
 INSERT INTO DIET VALUES (17, 'Piscivore');
-
 INSERT INTO DIET VALUES (18, 'Herbivore');
 INSERT INTO DIET VALUES (19 'Producer');
 INSERT INTO DIET VALUES (20, 'Producer');
+
+# Common Name - Also accepts multiple values
+INSERT INTO COMMON_NAME VALUES (1, 'Persian Rose');
+INSERT INTO COMMON_NAME VALUES (2, 'Didier\'s Tulip');
+INSERT INTO COMMON_NAME VALUES (2, 'Garden Tulip');
+INSERT INTO COMMON_NAME VALUES (3, 'Lion');
+INSERT INTO COMMON_NAME VALUES (4, 'Asian Elephant');
+INSERT INTO COMMON_NAME VALUES (5, 'Gray Wolf');
+INSERT INTO COMMON_NAME VALUES (6, 'Red Fox');
+INSERT INTO COMMON_NAME VALUES (7, 'Short-Beaked Common Dolphin');
+INSERT INTO COMMON_NAME VALUES (7, 'Common Dolphin');
+INSERT INTO COMMON_NAME VALUES (8, 'Atlantic Salmon');
+INSERT INTO COMMON_NAME VALUES (9, 'Honey Bee');
+INSERT INTO COMMON_NAME VALUES (10, 'Red Wood Ant');
+INSERT INTO COMMON_NAME VALUES (11, 'Fly Amanita');
+INSERT INTO COMMON_NAME VALUES (11, 'Fly Agaric');
+INSERT INTO COMMON_NAME VALUES (12, 'Porcini');
+INSERT INTO COMMON_NAME VALUES (12, 'Penny Bun');
+INSERT INTO COMMON_NAME VALUES (13, 'Western Gorilla');
+INSERT INTO COMMON_NAME VALUES (14, 'Bornean Orangutan');
+INSERT INTO COMMON_NAME VALUES (15, 'Barn Owl');
+INSERT INTO COMMON_NAME VALUES (15, 'Western Barn Owl');
+INSERT INTO COMMON_NAME VALUES (16, 'Peregrine Falcon');
+INSERT INTO COMMON_NAME VALUES (17, 'Nile Crocodile');
+INSERT INTO COMMON_NAME VALUES (17, 'African Crocodile');
+INSERT INTO COMMON_NAME VALUES (18, 'Galapagos Tortoise');
+INSERT INTO COMMON_NAME VALUES (19, 'European Yew');
+INSERT INTO COMMON_NAME VALUES (19, 'Common Yew');
+INSERT INTO COMMON_NAME VALUES (19, 'English Yew');
+INSERT INTO COMMON_NAME VALUES (20, 'European Ash');
+INSERT INTO COMMON_NAME VALUES (20, 'Common Ash');
+
+# Ecosystems
+INSERT INTO ECOSYSTEM VALUES ('EU026', 500, 'Ireland', 'Temperate', 'Mixed Forest', 6);
+INSERT INTO ECOSYSTEM VALUES ('AS041', 3000, 'Borneo', 'Tropical', 'Rainforest', 14);
+INSERT INTO ECOSYSTEM VALUES ('AT157', 5000, 'North Atlantic', 'Temperate', 'Ocean', 8);
+INSERT INTO ECOSYSTEM VALUES ('AF186', 4000, 'Serengeti', 'Arid', 'Savannah', 3);
+INSERT INTO ECOSYSTEM VALUES ('SA039', 300, 'Galapagos', 'Tropical', 'Island Archipelago', 18);
+INSERT INTO ECOSYSTEM VALUES ('AS453', 6000, 'Russia', 'Continental', 'Tundra', 5);
+
+# Students
+INSERT INTO STUDENT VALUES (1, 'Maddison Jordan', 'Botany', 2);
+INSERT INTO STUDENT VALUES (2, 'Kayleigh Villanueva', 'Zoology', 3);
+INSERT INTO STUDENT VALUES (3, 'Amira Fitzpatrick', 'Ecology', 4);
+INSERT INTO STUDENT VALUES (4, 'Effie Randolph', 'Marine Biology', 3);
+INSERT INTO STUDENT VALUES (5, 'Keira Ryan', 'Wildlife Biology', 3);
+INSERT INTO STUDENT VALUES (6, 'Vivian Walsh', 'Envir. Science', 5);
+INSERT INTO STUDENT VALUES (7, 'Fionn Roberts', 'Zoology', 2);
+INSERT INTO STUDENT VALUES (8, 'Dylan Stokes', 'Ecology', 1);
+INSERT INTO STUDENT VALUES (9, 'Juliette Connolly', 'Envir. Science', 4);
+INSERT INTO STUDENT VALUES (10, 'Ciaran Brady', 'Biology', 3);
+
+#Interactions
+INSERT INTO INTERACTS_WITH VALUES (3, 6, 'Predation');
+INSERT INTO INTERACTS_WITH VALUES (5, 6, 'Predation');
+INSERT INTO INTERACTS_WITH VALUES (3, 5, 'Competition');
+INSERT INTO INTERACTS_WITH VALUES (7, 8, 'Competition');
+INSERT INTO INTERACTS_WITH VALUES (11, 19, 'Symbiosis');
+INSERT INTO INTERACTS_WITH VALUES (12, 19, 'Symbiosis');
+INSERT INTO INTERACTS_WITH VALUES (11, 20, 'Symbiosis');
+INSERT INTO INTERACTS_WITH VALUES (12, 20, 'Symbiosis');
+INSERT INTO INTERACTS_WITH VALUES (9, 1, 'Mutualism');
+INSERT INTO INTERACTS_WITH VALUES (9, 2, 'Mutualism');
+
+# Lives in
+INSERT INTO LIVES_IN VALUES (1, 'EU026');
+INSERT INTO LIVES_IN VALUES (2, 'EU026');
+INSERT INTO LIVES_IN VALUES (3, 'AF186');
+INSERT INTO LIVES_IN VALUES (4, 'AF186');
+INSERT INTO LIVES_IN VALUES (5, 'AS453');
+INSERT INTO LIVES_IN VALUES (6, 'EU026');
+INSERT INTO LIVES_IN VALUES (7, 'AT157');
+INSERT INTO LIVES_IN VALUES (8, 'AT157');
+INSERT INTO LIVES_IN VALUES (9, 'EU026');
+INSERT INTO LIVES_IN VALUES (10, 'EU026');
+INSERT INTO LIVES_IN VALUES (11, 'EU026');
+INSERT INTO LIVES_IN VALUES (12, 'EU026');
+INSERT INTO LIVES_IN VALUES (13, 'AS041');
+INSERT INTO LIVES_IN VALUES (14, 'AS041');
+INSERT INTO LIVES_IN VALUES (15, 'EU026');
+INSERT INTO LIVES_IN VALUES (16, 'EU026');
+INSERT INTO LIVES_IN VALUES (17, 'AF186');
+INSERT INTO LIVES_IN VALUES (18, 'SA039');
+INSERT INTO LIVES_IN VALUES (19, 'EU026');
+INSERT INTO LIVES_IN VALUES (20, 'EU026');

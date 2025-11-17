@@ -1,0 +1,47 @@
+# Table Queries
+SELECT * FROM SPECIES;
+SELECT * FROM RESEARCHER;
+SELECT * FROM ECOSYSTEM;
+SELECT * FROM STUDENT;
+
+# Ecosystem by size
+SELECT * FROM ECOSYSTEM
+ORDER BY AreaKM DESC;
+
+# Total Area in Climates
+SELECT Climate, SUM(AreaKM) AS TotalArea
+FROM ECOSYSTEM
+GROUP BY Climate;
+
+# Show species, researcher and ecosystem information
+SELECT SPECIES.ID, SPECIES.ScientificName, LIVES_IN.AreaCode, SPECIES.ResearcherID AS ORCID, RESEARCHER.Name
+FROM SPECIES
+INNER JOIN LIVES_IN
+ON SPECIES.ID = LIVES_IN.SpeciesID
+INNER JOIN RESEARCHER
+ON SPECIES.ResearcherID = RESEARCHER.ORCID
+ORDER BY SPECIES.ID ASC;
+
+# View species with more than one diet category
+SELECT SPECIES.ScientificName, COUNT(DIET.Diet) AS Diets
+FROM SPECIES
+INNER JOIN DIET
+ON SPECIES.ID = DIET.SpeciesID
+GROUP BY SPECIES.ScientificName
+HAVING Diets > 1
+ORDER BY SPECIES.ID ASC;
+
+# Show all ecosystems with more than 5 species
+SELECT LIVES_IN.SpeciesID, SPECIES.ScientificName, ECOSYSTEM.Location, ECOSYSTEM.Name, LIVES_IN.AreaCode
+FROM SPECIES
+INNER JOIN LIVES_IN
+ON SPECIES.ID = LIVES_IN.SpeciesID
+INNER JOIN ECOSYSTEM
+ON LIVES_IN.AreaCode = ECOSYSTEM.AreaCode
+WHERE ECOSYSTEM.AreaCode IN (
+    SELECT AreaCode
+    FROM LIVES_IN
+    GROUP BY AreaCode
+    HAVING COUNT(SpeciesID) > 5
+)
+ORDER BY LIVES_IN.SpeciesID ASC;
