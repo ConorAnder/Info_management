@@ -12,11 +12,11 @@
 
 \section{Domain Description}
 
-\textbf{Food Chain}
+\textbf{Ecological Data}
 \vspace{3mm}
 
 \noindent
-In the food chain, there exist several species. Each species has an ID, one or more common names, a scientific name and a diet. \\ \\
+In an ecosystem, there exist several species. Each species has an ID, one or more common names, a scientific name and a diet. \\ \\
 These species all live in an ecosystem. 
 Ecosystems consist of a name, location and area code as well as a climate and area in km.
 Each ecosystem will also have a keystone species, that is, a species that has the greatest effect on an ecosystem \cite{paine_note_1969}.
@@ -467,8 +467,108 @@ Therefore the following is the fully constructed mapping of the ER diagram to a 
 \end{tabular}
 
 \newpage
+\renewcommand\thesubsection{\arabic{subsection}}
 \section{SQL Implementation}
+\subsection{Creation of Tables}
+The SQL code was implemented in separate files in order to maintain modularity.
+I began with the researcher and species tables as many of the other tables relied on the IDs of both as foreign keys.
+These IDs were assigned automatically with AUTO\textunderscore INCREMENT to make sure they were unique.
+In both tables I used UNIQUE to prevent accidentally adding the same information again.
+Without this, if we were to run the same insert command twice it would give two ID values to the same entry.
+However, in the unlikely scenario that a researcher has the same name and field of study, they will be prevented from entering the database.
+Using a composite key of the ID and name may solve this issue.
 
+\vspace{3mm}
+The two multivalued attributes, diet and common names were implemented with composite private keys made up of the species ID and the attribute itself.
+I realise now that it is this composite key that allows the one entity to have multiple of the same attribute.
+
+\vspace{3mm}
+The ecosystem table has the most information out of any of the tables.
+The area code is kept as a small varchar to prevent mistakes and the area in km is an unsigned int to make sure there isn't a negative area.
+The five most common climate types are provided as an ENUM.
+The Species ID of the keystone species is recorded here as a foreign key.
+
+\vspace{3mm}
+As there is a 1:1 relation between researchers who supervise students, the students can use their supervisor's ORCID in combination with their names to create a unique primary key.
+There is a check on the inserted year value to ensure no impossible values are input.
+
+\vspace{3mm}
+As the interacts with table takes in two foreign keys of the same type, there is a check to make sure that the two IDs are not identical.
+These IDs become a composite primary key.
+Another ENUM controls the interaction types that can be input into the system.
+
+\vspace{3mm}
+The lives in table is similar but without a need for as many controls as it is not a recursive relation.
+
+\subsection{Population of the Database}
+Populating the tables in the database was done in the same order that the tables were created.
+The researcher table was filled first, as species relied on the value of the researcher's ID. 
+Although this was not strictly necessary as the researcher ID column in the species table could be left as NULL or populated later. 
+Not all species were expected to be studied.
+
+\vspace{3mm}
+Species was inserted next as many entities in the database did rely on the species ID.
+The ID values in both species and researcher were left as NULL in the INSERT function to let SQL automatically populate the ID values with incrementing, unique numbers.
+Names were chosen at random from \href{https://a-z-animals.com/animals/scientific/}{a-z animals.com} \cite{animals_scientific}.
+The rest of the data was made up for the purposes of demonstrating the database.
+
+\vspace{3mm}
+I tried to assign multiple values in the diet and common name tables whenever I could to demonstrate that this was possible.
+Some of the species names may be a bit of a stretch as a result.
+I kept the ecosystem table short with six values that could be reused for all of the species in the demonstration.
+There was one student for every researcher due to the 1:1 relation.
+Some sample interactions were added between species and every species was included in an ecosystem, though they could have been added to more than one.
+
+\subsection{Data Integrity Constraints and Triggers}
+The first trigger is a simple one intended to make sure there are no orphan processes when trying to delete a researcher.
+The user is reminded to delete the corresponding student and species entries that use the ORCID as a foreign key. 
+This works by checking those foreign key values before the delete function is executed and stopping the process and sending a custom error message if they exist.
+
+\newpage
+The second comes into play after every creation of an entry in the ecosystem table. 
+This trigger automatically adds the included speciesID in the keystoneID section of the ecosystem table to the LIVES\textunderscore IN table.
+The idea is that there should never be a case where the keystone species of a particular ecosystem does not live in said ecosystem.
+Implementing this trigger makes logical sense and reduces the number of INSERT functions done manually.
+
+\vspace{3mm}
+This trigger is easily tested with a SELECT and INNER JOIN.
+
+\begin{verbatim}
+SELECT SPECIES.ID, SPECIES.ScientificName, LIVES_IN.AreaCode
+FROM SPECIES
+INNER JOIN LIVES_IN
+ON SPECIES.ID = LIVES_IN.SpeciesID
+WHERE SPECIES.ID = 11
+ORDER BY SPECIES.ID ASC;
+\end{verbatim}
+
+The script shows Amanita Muscaria and the area codes it lives in.
+After inserting a new ecosystem with it as the keystone species, we can run the script again and see that Amanita Muscaria belongs to the new ecosystem.
+
+\begin{verbatim}
+INSERT INTO ECOSYSTEM VALUES ('EU092', 1000, 'Germany', 'Temperate', 'Mixed Forest', 11);
+\end{verbatim}
+
+The temporary ecosystem can be removed with the following:
+
+\begin{verbatim}
+DELETE FROM LIVES_IN WHERE AreaCode = 'EU092';
+DELETE FROM ECOSYSTEM WHERE AreaCode = 'EU092';
+\end{verbatim}
+
+\subsection{SQL Queries}
+Aside from some testing queries, I implemented a SELECT query with INNER JOIN across three tables displaying species information along with the ecosystem in which they live and the researcher studying them.
+For convenience, the table is then displayed in ascending order of the species ID.
+This provides all the information closest to species at a glance.
+
+\vspace{3mm}
+The next query counts the number of diet types of each species and displays only the ones with more than two diet types.
+This can be used to isolate the species with more varied and diverse diets.
+It achieves this by counting the number of diet types in each species and grouping by the species' scientific name as long as the count was greater than 1.
+
+\vspace{3mm}
+The final query uses a subquery to display every case of an ecosystem which contains more than 5 species.
+The inner WHERE ECOSYSTEM.AreaCode IN () selects the area codes where SpeciesID has a count of more than 5 which is then joined with further ecosystem and species information.
 
 \newpage
 \bibliographystyle{plain}
