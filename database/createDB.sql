@@ -1,7 +1,7 @@
 CREATE DATABASE ECOLOGICAL_DATA;
 USE ECOLOGICAL_DATA;
 
-# Prevents deletion of 
+# Prevents deletion of researcher entries while student or studied species exist
 DELIMITER //
 CREATE TRIGGER no_orphan_student
 BEFORE DELETE ON RESEARCHER

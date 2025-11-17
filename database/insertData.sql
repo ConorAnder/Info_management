@@ -1,4 +1,4 @@
-USE ECOLOGICAL_DATA
+USE ECOLOGICAL_DATA;
 
 # Researchers - Auto increment takes care of the ORCID
 INSERT INTO RESEARCHER VALUES (NULL, 'Harold Stewart', 'Botany');    -- 1
